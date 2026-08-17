@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>gitHub issues tracker</title>
+    <link rel="shortcut icon" href="./assets/github-logo.png" type="image/x-icon">
 
     <!-- font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"
@@ -39,13 +40,13 @@
         <div class="card w-full max-w-sm shrink-0 mx-auto">
             <div class="card-body">
                 <fieldset class="fieldset">
-                    <label class="label">Username</label>
-                    <input type="text" class="input w-full" placeholder="Enter Username" />
-                    <p>Default: admin</p>
-                    <label class="label">Password</label>
-                    <input type="password" class="input w-full" placeholder="Password" />
-                    <p>Default: admin123</p>
-                    <button class="btn btn-primary mt-4">Sign In</button>
+                    <label class="label font-semibold text-[#1F2937] ">Username</label>
+                    <input id="user-name" type="text" class="input w-full" placeholder="Enter Username" />
+                    <p class="text-[#4A00FF]">Default: admin</p>
+                    <label class="label font-semibold text-[#1F2937]">Password</label>
+                    <input id="user-pin" type="password" class="input w-full" placeholder="Password" />
+                    <p class="text-[#4A00FF]">Default: admin123</p>
+                    <button id="btn-sign" class="btn btn-primary mt-4">Sign In</button>
                 </fieldset>
             </div>
         </div>
@@ -65,5 +66,7 @@
             </div>
         </div>
     </div>
+
+    <script src="./script/login.js"></script>
 </body>
 </html>
