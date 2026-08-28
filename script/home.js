@@ -1,6 +1,4 @@
 const createElement = (arr) =>{
-  // const htmlElenments = arr.map((el) => `<span class="btn">${el}</span>`);
-
   const htmlElements = arr.map(
     (el) => `<span class="badge badge-success badge-outline">${el}</span>`,
   );
@@ -34,7 +32,7 @@ const allIssuesDisplay = (issues) => {
                     </div>
                 
                     <!-- card details -->
-                    <h2 class="font-semibold min-h-[50px]">${issue.title}</h2>
+                    <h2 class="font-semibold min-h-12.5">${issue.title}</h2>
                     <p class="text-[#64748B] line-clamp-2">${issue.description}</p>
                 
                     <!-- card bottom status -->
