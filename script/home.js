@@ -1,6 +1,32 @@
 const createElement = (arr) =>{
-  const htmlElements = arr.map(
-    (el) => `<span class="badge badge-success badge-outline">${el}</span>`,
+  const htmlElements = arr.map((el) =>{
+    let styleClass = " ";
+    let icon = " "
+    if(el === "bug"){
+      styleClass = "border-[#FECACA] bg-[#FFF1F1] text-[#EF4444]";
+      icon = "fa-brands fa-android"
+    }
+    else if(el === "help wanted"){
+      styleClass = "border-[#D97706] bg-[#FFF8DB] text-[#D97706]";
+      icon = "fa-solid fa-circle-radiation"
+    }
+    else if(el === "enhancement"){
+      styleClass = "border-[#00A96E] bg-[#BBF7D080] text-[#00A96E]";
+      icon = "fa-solid fa-wand-magic-sparkles";
+    }
+    else if (el === "documentation") {
+      styleClass = "border-[#A855F7] bg-[#A855F725] text-[#A855F7]";
+      icon = "fa-solid fa-paperclip";
+    }
+    else if (el === "good first issue") {
+      styleClass = "border-[#0066FF] bg-[#E5F0FF] text-[#0052CC]";
+      icon = "fa-solid fa-cookie";
+    }
+    return `<span class="${styleClass} border-2 rounded-2xl px-[8px] py-[4px] flex justify-center items-center gap-2 uppercase text-[12px]">
+        <i class="${icon}"></i>
+        <span class="whitespace-nowrap">${el}</span>
+    </span>`;
+  }
   );
     return htmlElements.join(" ")
 }
@@ -36,8 +62,8 @@ const allIssuesDisplay = (issues) => {
                     <p class="text-[#64748B] line-clamp-2">${issue.description}</p>
                 
                     <!-- card bottom status -->
-                    <div class="">
-                        <div class="flex items-center gap-4">${createElement(issue.labels)}</div>
+                    <div>
+                        <div class="flex items-center gap-2">${createElement(issue.labels)}</div>
                     </div>
                 
                     <!-- horizontal line -->
