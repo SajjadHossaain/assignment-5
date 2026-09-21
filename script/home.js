@@ -203,12 +203,16 @@ const allIssuesDisplay = (issues) => {
 };
 loadAllIssues();
 
-// document.getElementById("btn-search").addEventListener("click",async()=>{
-//   const input = document.getElementById("input-search");
-//   const searchValue = input.value.replaceAll(" ", "").toLowerCase();
+document.getElementById("btn-search").addEventListener("click",async()=>{
+  const input = document.getElementById("input-search");
+  const searchValue = input.value.replaceAll(" ", "").toLowerCase();
 
-//   const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
-//   const res =await fetch(url)
-//   const data = await res.json()
-//   console.log(data.data)
-// });
+  console.log(searchValue)
+  const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
+  const res =await fetch(url)
+  const data = await res.json()
+
+  const allWords = data.data;
+  const filterWord = allWords.filter((word) => word.title.replaceAll(" ", "").toLowerCase().includes(searchValue));
+  allIssuesDisplay(filterWord)
+});
