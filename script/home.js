@@ -100,9 +100,39 @@ const loadAllIssues = async () => {
   const res = await fetch(url);
   const data = await res.json();
 
-
   allIssuesDisplay(data.data);
 };
+
+const loadSingleCard = async(id) =>{
+  const details = document.getElementById("details-container");
+  details.innerHTML = `
+            <h1 class="font-bold text-2xl">Fix broken image uploads</h1>
+            <div class="flex gap-2 items-center">
+                <div class=" bg-[#00A96E] text-white text-sm py-1 px-3 rounded-full text-nowrap">Opened</div>
+                <div class="bg-[#64748B] rounded-full h-2 w-2"></div>
+                <p class="text-sm text-[#64748B]">Opened by Fahim Ahmed</p>
+                <div class="bg-[#64748B] rounded-full h-2 w-2"></div>
+                <p class="text-sm text-[#64748B]">22/02/2026</p>
+            </div>
+            <div>
+                <div class="flex items-center gap-2">Satues</div>
+            </div>
+            <p class="text-lg text-[#64748B] line-clamp-2">The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.</p>
+            
+            <div class="flex gap-5 items-center">
+                <div class="flex-1 h-full space-y-1 shadow-sm rounded-xl pl-2">
+                    <p class="text-sm text-[#64748B]">22/02/2026</p>
+                    <h2 class="font-semibold">Fahim Ahmed</h2>
+                </div>
+                <div class="flex-1 h-full space-y-1 shadow-sm rounded-xl pl-2">
+                    <p class="text-sm text-[#64748B]">Priority:</p>
+                    <div class="bg-red-700 text-white text-sm py-1 px-3 rounded-full text-nowrap w-15 text-center">High</div>
+                </div>
+            </div>
+  `;
+
+  document.getElementById("my_modal").showModal()
+}
 
 const allIssuesDisplay = (issues) => {
   const count = document.getElementById("count");
@@ -135,7 +165,7 @@ const allIssuesDisplay = (issues) => {
 
     const card = document.createElement("div");
     card.innerHTML = `
-                <div class="${borderTop} rounded-md p-4 items-center space-y-4 bg-[#ffffff] shadow-md h-full">
+                <div onclick="loadSingleCard(${issue.id})" class="${borderTop} rounded-md p-4 items-center space-y-4 bg-[#ffffff] shadow-md h-full">
                 
                     <!-- card status -->
                     <div class="flex justify-between">
