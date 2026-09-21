@@ -46,11 +46,11 @@
                                     <path d="m21 21-4.3-4.3"></path>
                                 </g>
                             </svg>
-                            <input type="text" name="text" placeholder="Search" required />
+                            <input id="input-search" type="text" name="text" placeholder="Search" required />
                         </label>
                     </div>
                     <div>
-                        <button class="btn btn-primary"><i class="fa-solid fa-plus"></i>New Issue</button>
+                        <button id="btn-search" class="btn btn-primary"><i class="fa-solid fa-plus"></i>New Issue</button>
                     </div>
                 </div>
             </div>
@@ -60,9 +60,9 @@
         <!-- button -->
         <section class="space-y-4 mt-16">
             <div class="flex gap-3 bg-white shadow-md rounded-lg p-6">
-                <button onclick = "loadAllIssues()" class="filter-btn btn" id="all-btn">All</button>
-                <button class="filter-btn btn" id="open-btn">Open</button>
-                <button class="filter-btn btn" id="close-btn">Closed</button>
+                <button onclick = "toggleStyle('all-btn')" class="filter-btn btn" id="all-btn">All</button>
+                <button onclick ="toggleStyle('open-btn')" class="filter-btn btn" id="open-btn">Open</button>
+                <button onclick="toggleStyle('close-btn')"  class="filter-btn btn" id="close-btn">Closed</button>
             </div>
 
             <!--Issues -->
@@ -73,7 +73,7 @@
                         <img class="animate-spin" src="assets/Aperture.png" alt="">
                     </div>
                     <div>
-                        <h2 class="font-semibold text-[#1F2937]">50 Issues</h2>
+                        <h2 class="font-semibold text-[#1F2937]"><span id="count">1</span> Issues</h2>
                         <p>Track and manage your project issues</p>
                     </div>
                 </div>

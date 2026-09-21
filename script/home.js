@@ -18,7 +18,7 @@ const createElement = (arr) => {
       styleClass = "border-[#0066FF] bg-[#E5F0FF] text-[#0052CC]";
       icon = "fa-solid fa-cookie";
     }
-    return `<span class="${styleClass} border-2 rounded-2xl px-[8px] py-[4px] flex justify-center items-center gap-2 uppercase text-[12px]">
+    return `<span class="${styleClass} border-2 rounded-2xl px-2 py-1 flex justify-center items-center gap-2 uppercase text-[12px]">
         <i class="${icon}"></i>
         <span class="whitespace-nowrap">${el}</span>
     </span>`;
@@ -30,48 +30,73 @@ const manageSpinner = (status) => {
   if (status == true) {
     document.getElementById("spinner").classList.remove("hidden");
     document.getElementById("card-container").classList.add("hidden");
-  }
-  else{
+  } else {
     document.getElementById("spinner").classList.add("hidden");
     document.getElementById("card-container").classList.remove("hidden");
   }
 };
 
 const removeActive = () => {
-  const buttons = document.querySelectorAll(".filter-btn");
-  buttons.forEach((button) => {
-    button.classList.remove("active");
-  });
+  const filterButton = document.querySelectorAll(".filter-btn");
+  // console.log(filterButton)
+  filterButton.forEach((btn) => btn.classList.remove("active"));
 };
+
+const toggleStyle = (id) => {
+  removeActive();
+  const clickAllBtn = document.getElementById(id);
+  clickAllBtn.classList.add("active");
+};
+
 const loadAllIssues = async () => {
   manageSpinner(true);
-  const res = await fetch(
-    "https://phi-lab-server.vercel.app/api/v1/lab/issues",
-  );
-
+  const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
+  const res = await fetch(url);
   const data = await res.json();
-
-  const allBtn = document.getElementById("all-btn");
-  console.log(allBtn)
 
   allIssuesDisplay(data.data);
 };
 
 const allIssuesDisplay = (issues) => {
+  const count = document.getElementById("count");
+  count.innerText = issues.length;
+
   const cardContainer = document.getElementById("card-container");
   cardContainer.innerHTML = ``;
   issues.forEach((issue) => {
+
+    let borderTop = "";
+    let statusIcon = "";
+    let priorityClass = "";
+    const data = issue.createdAt.slice(0, 10);
+    console.log(data)
+    if (issue.status === "open") {
+      borderTop = "border-t-4 border-[#00A96E]";
+      statusIcon = "assets/Open-Status.png";
+    } else {
+      borderTop = "border-t-4 border-[#A855F7]";
+      statusIcon = "assets/Closed- Status .png";
+    }
+
+    if (issue.priority === "high") {
+      priorityClass = " text-[#EF4444] bg-[#FEECEC]";
+    } else if (issue.priority === "medium") {
+      priorityClass = " text-[#F59E0B] bg-[#FFF6D1]";
+    } else {
+      priorityClass = " text-[#9CA3AF] bg-[#EEEFF2]";
+    }
+
     const card = document.createElement("div");
     card.innerHTML = `
-                <div class="border-t-4 border-[#00A96E] rounded-md p-4 items-center space-y-4 bg-[#ffffff] shadow-md h-full">
+                <div class="${borderTop} rounded-md p-4 items-center space-y-4 bg-[#ffffff] shadow-md h-full">
                 
                     <!-- card status -->
                     <div class="flex justify-between">
                         <div>
-                            <img src="assets/Open-Status.png" alt="">
+                            <img src="${statusIcon}" alt="">
                         </div>
-                        <div class="bg-[#FEECEC] px-6 rounded-lg">
-                            <p class="text-[#EF4444]">${issue.priority}</p>
+                        <div class="px-6 rounded-lg ${priorityClass}">
+                        ${issue.priority}
                         </div>
                     </div>
                 
@@ -90,7 +115,7 @@ const allIssuesDisplay = (issues) => {
                     </div>
                     <div class="space-y-2">
                         <p class="text-gray">#${issue.id} by ${issue.author}</p>
-                        <p class="text-gray">18 August 2026</p>
+                        <p class="text-gray">${data}</p>
                     </div>
                 
                 </div>
@@ -99,8 +124,14 @@ const allIssuesDisplay = (issues) => {
   });
   manageSpinner(false);
 };
-
 loadAllIssues();
 
+// document.getElementById("btn-search").addEventListener("click",async()=>{
+//   const input = document.getElementById("input-search");
+//   const searchValue = input.value.replaceAll(" ", "").toLowerCase();
 
-
+//   const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
+//   const res =await fetch(url)
+//   const data = await res.json()
+//   console.log(data.data)
+// });
