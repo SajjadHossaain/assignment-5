@@ -37,22 +37,69 @@ const manageSpinner = (status) => {
 };
 
 const removeActive = () => {
-  const filterButton = document.querySelectorAll(".filter-btn");
-  // console.log(filterButton)
-  filterButton.forEach((btn) => btn.classList.remove("active"));
+    const filterButton = document.querySelectorAll(".filter-btn");
+
+    filterButton.forEach((btn) => {
+        btn.classList.remove("active");
+    });
 };
 
-const toggleStyle = (id) => {
-  removeActive();
-  const clickAllBtn = document.getElementById(id);
-  clickAllBtn.classList.add("active");
+const toggleStyle = async(id) => { 
+  const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
+  if (id === "open-btn") {
+    manageSpinner(true);
+    fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      removeActive();
+      const clickAllBtn = document.getElementById(id);
+      clickAllBtn.classList.add("active");
+      displayOpenIssues(data.data);
+    });
+  }
+  else if(id === "close-btn"){
+    manageSpinner(true);
+    fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      removeActive();
+      const clickAllBtn = document.getElementById(id);
+      clickAllBtn.classList.add("active");
+      displayCloseIssues(data.data);
+    })
+  }
+  else{
+    manageSpinner(true);
+      fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+          removeActive();
+          const clickAllBtn = document.getElementById(id);
+          clickAllBtn.classList.add("active");
+          allIssuesDisplay(data.data);
+        });
+
+  }
 };
+
+const displayOpenIssues = (issues) => {
+  // console.log(issues)
+  const openIssues = issues.filter(issue => issue.status === "open")
+  console.log(openIssues)
+  allIssuesDisplay(openIssues)
+};
+
+const displayCloseIssues = (issues) =>{
+  const closeIssues = issues.filter((issue) => issue.status === "closed");
+  allIssuesDisplay(closeIssues)
+}
 
 const loadAllIssues = async () => {
   manageSpinner(true);
   const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
   const res = await fetch(url);
   const data = await res.json();
+
 
   allIssuesDisplay(data.data);
 };
@@ -69,7 +116,7 @@ const allIssuesDisplay = (issues) => {
     let statusIcon = "";
     let priorityClass = "";
     const data = issue.createdAt.slice(0, 10);
-    console.log(data)
+
     if (issue.status === "open") {
       borderTop = "border-t-4 border-[#00A96E]";
       statusIcon = "assets/Open-Status.png";
