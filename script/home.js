@@ -103,30 +103,59 @@ const loadAllIssues = async () => {
   allIssuesDisplay(data.data);
 };
 
-const loadSingleCard = async(id) =>{
+const loadSingleCard = (id) => {
+  const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
+  fetch(url)
+  .then(res => res.json())
+  .then(data => {
+    loadSingleCardDisplay(data.data)
+  })
+}
+
+const loadSingleCardDisplay = async(issue) =>{
+
+  const date = issue.createdAt.slice(0, 10);
+
+  let bgColor = "";
+  let priorityClass = "";
+
+  if(issue.status === "open"){
+    bgColor = "bg-[#00A96E] text-white";
+  }
+  else if(issue.status === "closed"){
+    bgColor = "bg-[#A855F7] text-white";
+  }
+  // priority
+  if (issue.priority === "high") {
+    priorityClass = " text-[#EF4444] bg-[#FEECEC]";
+  } else if (issue.priority === "medium") {
+    priorityClass = " text-[#F59E0B] bg-[#FFF6D1]";
+  } else {
+    priorityClass = " text-[#9CA3AF] bg-[#EEEFF2]";
+  }
   const details = document.getElementById("details-container");
   details.innerHTML = `
-            <h1 class="font-bold text-2xl">Fix broken image uploads</h1>
+            <h1 class="font-bold text-2xl">${issue.title}</h1>
             <div class="flex gap-2 items-center">
-                <div class=" bg-[#00A96E] text-white text-sm py-1 px-3 rounded-full text-nowrap">Opened</div>
+                <div class=" ${bgColor} text-sm py-1 px-3 rounded-full text-nowrap">${issue.status}</div>
                 <div class="bg-[#64748B] rounded-full h-2 w-2"></div>
-                <p class="text-sm text-[#64748B]">Opened by Fahim Ahmed</p>
+                <p class="text-sm text-[#64748B] text-nowrap">Opened by ${issue.author}</p>
                 <div class="bg-[#64748B] rounded-full h-2 w-2"></div>
-                <p class="text-sm text-[#64748B]">22/02/2026</p>
+                <p class="text-sm text-[#64748B]">${date}</p>
             </div>
             <div>
-                <div class="flex items-center gap-2">Satues</div>
+                <div class="flex items-center gap-2">${createElement(issue.labels)}</div>
             </div>
             <p class="text-lg text-[#64748B] line-clamp-2">The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.</p>
             
             <div class="flex gap-5 items-center">
                 <div class="flex-1 h-full space-y-1 shadow-sm rounded-xl pl-2">
-                    <p class="text-sm text-[#64748B]">22/02/2026</p>
-                    <h2 class="font-semibold">Fahim Ahmed</h2>
+                    <p class="text-sm text-[#64748B]">${date}</p>
+                    <h2 class="font-semibold">${issue.author}</h2>
                 </div>
                 <div class="flex-1 h-full space-y-1 shadow-sm rounded-xl pl-2">
                     <p class="text-sm text-[#64748B]">Priority:</p>
-                    <div class="bg-red-700 text-white text-sm py-1 px-3 rounded-full text-nowrap w-15 text-center">High</div>
+                    <div class="${priorityClass} text-sm py-1 px-3 rounded-full text-nowrap w-20 text-center">${issue.priority}</div>
                 </div>
             </div>
   `;
@@ -145,7 +174,7 @@ const allIssuesDisplay = (issues) => {
     let borderTop = "";
     let statusIcon = "";
     let priorityClass = "";
-    const data = issue.createdAt.slice(0, 10);
+    const date = issue.createdAt.slice(0, 10);
 
     if (issue.status === "open") {
       borderTop = "border-t-4 border-[#00A96E]";
@@ -192,7 +221,7 @@ const allIssuesDisplay = (issues) => {
                     </div>
                     <div class="space-y-2">
                         <p class="text-gray">#${issue.id} by ${issue.author}</p>
-                        <p class="text-gray">${data}</p>
+                        <p class="text-gray">${date}</p>
                     </div>
                 
                 </div>
